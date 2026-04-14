@@ -8,6 +8,9 @@ from sentence_transformers import SentenceTransformer
 from typing import List, Dict
 import uuid
 import config
+import shutil
+import os
+import time
 
 
 class VectorStore:
@@ -23,10 +26,12 @@ class VectorStore:
                 host=config.QDRANT_HOST,
                 port=config.QDRANT_PORT
             )
+            self.embedded_mode = False
         else:
             # Modo embebido (sin Docker)
             print(f"Iniciando Qdrant en modo local: {config.QDRANT_PATH}")
             self.client = QdrantClient(path=config.QDRANT_PATH)
+            self.embedded_mode = True
         
         # Cargar modelo de embeddings
         print(f"Cargando modelo de embeddings: {config.EMBEDDING_MODEL}")
@@ -162,13 +167,49 @@ class VectorStore:
     
     def reset_collection(self):
 
-        """Eliminar y recrear la colección"""
+        """
+        Eliminar y recrear la colección desde cero
+        En modo embebido, elimina físicamente el storage
+        """
 
         try:
-            self.client.delete_collection(config.COLLECTION_NAME)
-            print(f"Colección '{config.COLLECTION_NAME}' eliminada")
-        except Exception:
-            pass
+            if self.embedded_mode:
+                print("Realizando reset físico...")
+                
+                # Cerrar cliente actual
+                self.client.close()
+                print("Cliente Qdrant cerrado")
+                
+                # Tiempo para que el SO libere los archivos
+                time.sleep(0.5)
+                
+                # Eliminar físicamente el directorio de storage
+                if os.path.exists(config.QDRANT_PATH):
+                    shutil.rmtree(config.QDRANT_PATH)
+                    print(f"Storage físico eliminado: {config.QDRANT_PATH}")
+                
+                # Recrear el cliente (esto recreará el directorio)
+                self.client = QdrantClient(path=config.QDRANT_PATH)
+                print("Cliente Qdrant reinicializado")
+                
+                # Crear colección limpia
+                self._create_collection_if_not_exists()
+                print("Colección recreada desde cero")
+                
+            else:
+                # Modo cliente-servidor: solo eliminar colección
+                print("Eliminando colección...")
+                try:
+                    self.client.delete_collection(config.COLLECTION_NAME)
+                    print(f"Colección '{config.COLLECTION_NAME}' eliminada")
+                except Exception as e:
+                    print(f"No se pudo eliminar la colección: {e}")
+                
+                self._create_collection_if_not_exists()
+                print("Colección recreada")
+                
+        except Exception as e:
+            print(f"Error durante el reset: {e}")
+            raise
         
-        self._create_collection_if_not_exists()
-        print("Colección reiniciada")
+        print("Reset completado exitosamente")

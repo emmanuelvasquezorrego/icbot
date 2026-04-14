@@ -17,7 +17,7 @@ def main():
     
     # Verificar que existe el directorio de documentos
     if not os.path.exists(config.DOCUMENTS_PATH):
-        print(f"\n✗ Error: No existe el directorio '{config.DOCUMENTS_PATH}'")
+        print(f"\nError: No existe el directorio '{config.DOCUMENTS_PATH}'")
         print(f"  Crea el directorio y coloca archivos TXT o PDF ahí")
         print(f"  Comando: mkdir {config.DOCUMENTS_PATH}")
         sys.exit(1)
@@ -35,20 +35,71 @@ def main():
     for f in files:
         print(f"  - {f}")
     
-    # Preguntar si reiniciar la base de datos
-    print("\n¿Desea reiniciar la base de datos? (s/n): ", end="")
-    reset = input().strip().lower()
-    
     # Inicializar vector store
     print("\nInicializando Qdrant...")
     vector_store = VectorStore()
+
+    current_count = vector_store.count_documents()
+    print(f"\nEstado actual de la base de datos: {current_count} chunks indexados")
+
+    print("\n" + "=" * 60)
+
+    if current_count > 0:
+        print("La base de datos ya contiene documentos indexados.")
+        print("¿Qué acción desea realizar?")
+        print("  1. Reiniciar base de datos (borrar todo e indexar de nuevo)")
+        print("  2. Cancelar operación")
+        print("\nNota: Se reinicia para agregar documentos y así evitar duplicados.")
+
+        while True:
+            choice = input("Seleccione una opción (1 o 2): ").strip()
+            if choice in ['1', '2']:
+                break
+            print("Opción no válida. Por favor, ingrese 1 o 2.")
+
+        if choice == '1':
+
+            # Reiniciar base de datos completa
+            print("\n" + "=" * 60)
+            print("Confirmación de reinicio")
+            print("=" * 60)
+            print("Esta acción:")
+            print(f"  • Eliminará los {current_count} chunks existentes")
+            print(f"  • Indexará {len(files)} archivos actuales")
+            print("-" * 60)
+
+            while True:
+                confirm = input("¿Confirma que desea reiniciar la base de datos? (s/n): ").strip().lower()
+                if confirm in ['s', 'n', '']:
+                    break
+                print("Opción no válida. Ingrese 's' para sí o 'n' para no.")
     
-    if reset == 's':
-        print("\nReiniciando base de datos...")
-        vector_store.reset_collection()
+            if confirm != 's':
+                print("\nReinicio cancelado.")
+                sys.exit(0)
+
+            print("\nEliminando base de datos existente...")
+            vector_store.reset_collection()
+            print("Base de datos reiniciada exitosamente")
+
+        elif choice == '2':
+            print("\nOperación cancelada.")
+            sys.exit(0)
+    
     else:
-        count = vector_store.count_documents()
-        print(f"\nBase de datos actual: {count} chunks indexados")
+        # Base de datos vacía - indexar directamente
+        print("La base de datos está vacía.")
+        print(f"Se indexarán {len(files)} archivos.")
+        
+        while True:
+            choice = input("\n¿Desea continuar con la indexación? (s/n): ").strip().lower()
+            if choice in ['s', 'n', '']:
+                break
+            print("Opción no válida. Ingrese 's' para sí o 'n' para no.")
+                    
+        if choice == 'n':
+            print("\nOperación cancelada.")
+            sys.exit(0)
     
     # Cargar documentos
     print(f"\nCargando documentos desde '{config.DOCUMENTS_PATH}'...")
@@ -70,6 +121,7 @@ def main():
         
         # Mostrar resumen
         total_count = vector_store.count_documents()
+
         print("\n" + "=" * 60)
         print(f"INDEXACIÓN COMPLETADA")
         print(f"  Total de chunks en la base de datos: {total_count}")
