@@ -1,0 +1,27 @@
+# Entornos virtuales
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de configuración sensibles
+.env
+
+# Archivos de sistema (opcional pero recomendado)
+.DS_Store
+Thumbs.db
+
+# VS Code (opcional)
+.vscode/
+
+# Bases de datos / almacenamiento local
+qdrant_storage/
+
+# Logs
+*.log
+
+# Archivos temporales
+*.tmp
