@@ -103,7 +103,6 @@ def process_message(phone: str, message_id: str, text: str):
             # Bloqueo silencioso
             conv_log.log_rate_limit_event(phone, "rate_limit_silent")
 
-        # Cortar flujo
         return
 
     text_lower = text.strip().lower()
