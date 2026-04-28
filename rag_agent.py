@@ -199,7 +199,7 @@ Responde SOLO con un JSON:
 2. Responde de forma DIRECTA y CONCISA
 3. Ve al grano, sin introducciones ni rodeos
 4. NO ofrezcas información adicional a menos que el usuario pregunte
-5. Si no tienes un dato específico, di solo: "No tengo información sobre eso"
+5. Si no tienes un dato específico, di solo: "Lo siento, no cuento con esa información"
 6. NO sugieras contactar a administración a menos que sea indispensable
 7. NO hagas preguntas al final (como "¿Quieres saber más?")
 
