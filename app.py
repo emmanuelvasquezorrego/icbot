@@ -77,59 +77,59 @@ CLEAR_COMMANDS = {"limpiar", "clear", "borrar", "/limpiar", "/clear", "/borrar"}
 
 
 def process_message(phone: str, message_id: str, text: str):
-
     """
     Procesar un mensaje entrante de WhatsApp.
-    Se ejecuta en un hilo separado para no bloquear la respuesta al webhook.
     """
-
     start_time = time.time()
-
+    
     # Marcar como leído
     whatsapp.mark_as_read(message_id)
-
-    # Rate limiting
+    
+    # ── Rate limiting ──────────────────────────────────────
     allowed, reason = rate_lim.is_allowed(phone)
-
+    
     if not allowed:
-        # Solo envia mensaje una vez por bloqueo, para no spamear al usuario
         if reason == "notify":
             response_text = format_rate_limit_response()
             whatsapp.send_message(phone, response_text)
-
             conv_log.log_rate_limit_event(phone, "rate_limit_notify")
-
         else:
-            # Bloqueo silencioso
             conv_log.log_rate_limit_event(phone, "rate_limit_silent")
-
         return
-
+    
     text_lower = text.strip().lower()
-
-    # Comandos especiales
+    
+    # ── Comandos especiales ────────────────────────────────
     if text_lower in SPECIAL_COMMANDS:
         whatsapp.send_message(phone, format_welcome_message())
         return
-
+    
     if text_lower in CLEAR_COMMANDS:
         conv_mgr.clear_history(phone)
         whatsapp.send_message(phone, format_history_cleared_response())
         return
-
-    # Consulta RAG
+    
+    # ── Consulta RAG ───────────────────────────────────────
     try:
-
+        # Detectar si es el primer mensaje del usuario
+        user_history = conv_mgr.get_history(phone)
+        is_first = len(user_history) == 0  # ← No hay mensajes previos
+        
         # Consultar al agente RAG
         answer, retrieved_docs = rag_agent.query(
             phone=phone,
             question=text
         )
-
-        # Formatear y enviar respuesta
-        response_text = format_response(answer, retrieved_docs)
+        
+        # Formatear respuesta según si es primer mensaje o no
+        response_text = format_response(
+            answer=answer,
+            sources=retrieved_docs,
+            is_first_message=is_first  # ← Pasar el indicador
+        )
+        
         whatsapp.send_message(phone, response_text)
-
+        
         # Log de la interacción
         processing_ms = int((time.time() - start_time) * 1000)
         conv_log.log_interaction(
@@ -139,11 +139,10 @@ def process_message(phone: str, message_id: str, text: str):
             retrieved_docs=retrieved_docs,
             processing_time_ms=processing_ms
         )
-
+        
     except Exception as e:
         logger.exception(f"Error procesando mensaje de {phone}: {e}")
         whatsapp.send_message(phone, format_error_response())
-
 
 # Rutas Flask
 @app.get("/webhook")

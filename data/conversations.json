@@ -1,0 +1,66 @@
+{
+  "573246780981": [
+    {
+      "role": "user",
+      "content": "nombre del conjunto",
+      "timestamp": "2026-04-24T16:08:51.606973"
+    },
+    {
+      "role": "assistant",
+      "content": "El nombre del conjunto es Villa Verde.",
+      "timestamp": "2026-04-24T16:08:51.611622"
+    },
+    {
+      "role": "user",
+      "content": "Tiene zonas comunes?",
+      "timestamp": "2026-04-24T16:23:41.227191"
+    },
+    {
+      "role": "assistant",
+      "content": "Sí, Villa Verde cuenta con varias zonas comunes, como piscina comunitaria, gimnasio y parque infantil.",
+      "timestamp": "2026-04-24T16:23:41.230224"
+    }
+  ],
+  "573215577594": [
+    {
+      "role": "user",
+      "content": "Se permiten mascotas?",
+      "timestamp": "2026-04-24T16:23:41.183441"
+    },
+    {
+      "role": "assistant",
+      "content": "Sí, se permiten mascotas, pero deben estar siempre con correa y no en áreas comunes sin supervisión.",
+      "timestamp": "2026-04-24T16:23:41.189899"
+    },
+    {
+      "role": "user",
+      "content": "Hay parque?",
+      "timestamp": "2026-04-24T17:23:55.343085"
+    },
+    {
+      "role": "assistant",
+      "content": "Sí, hay un parque infantil dentro del conjunto residencial.",
+      "timestamp": "2026-04-24T17:23:55.365681"
+    },
+    {
+      "role": "user",
+      "content": "Hay parque?",
+      "timestamp": "2026-04-24T17:26:41.805676"
+    },
+    {
+      "role": "assistant",
+      "content": "Sí, hay un parque infantil dentro del conjunto residencial.",
+      "timestamp": "2026-04-24T17:26:41.809285"
+    },
+    {
+      "role": "user",
+      "content": "Y guardería?",
+      "timestamp": "2026-04-24T17:26:57.820151"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información",
+      "timestamp": "2026-04-24T17:26:57.824579"
+    }
+  ]
+}
