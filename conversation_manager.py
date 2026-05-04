@@ -29,10 +29,12 @@ class ConversationManager:
         self._load_from_disk()
 
     def add_message(self, phone: str, role: str, content: str):
+        
         """
         Agregar un mensaje al historial del usuario.
         role: 'user' | 'assistant'
         """
+
         with self.lock:
             if phone not in self.conversations:
                 self.conversations[phone] = deque(maxlen=config.MAX_CONVERSATION_HISTORY)
@@ -52,29 +54,24 @@ class ConversationManager:
             if phone not in self.conversations:
                 return []
             return list(self.conversations[phone])
+    
+    def get_context_string_reversed(self, phone: str, limit: int = None) -> str:
 
-    def get_context_string(self, phone: str, limit: int = None) -> str:
-
-        """
-        Retorna el historial formateado como string.
-        Si limit es None, usa el valor de config.
-        """
+        """Retorna historial en orden inverso (más reciente primero)."""
 
         if limit is None:
             limit = config.MAX_CONTEXT_MESSAGES
-        
+
         history = self.get_history(phone)
         if not history:
             return ""
         
-        # Tomar solo los últimos N mensajes
-        recent_history = history[-limit:]
-        
+        recent_history = history[-limit:]  # últimos N
+
         lines = []
-        for msg in recent_history:
+        for msg in reversed(recent_history):  # invertir
             prefix = "Usuario" if msg["role"] == "user" else "Asistente"
             lines.append(f"{prefix}: {msg['content']}")
-        
         return "\n".join(lines)
 
     def clear_history(self, phone: str):
@@ -115,9 +112,7 @@ class ConversationManager:
         
         return messages
 
-    # -------------------------------------------------------------------------
     # Persistencia en disco
-    # -------------------------------------------------------------------------
 
     def _save_to_disk(self):
 

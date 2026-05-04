@@ -24,43 +24,503 @@
   "573215577594": [
     {
       "role": "user",
+      "content": "Nombre del conjunto",
+      "timestamp": "2026-05-03T12:13:28.099430"
+    },
+    {
+      "role": "assistant",
+      "content": "El conjunto se llama Villa Verde.",
+      "timestamp": "2026-05-03T12:13:28.104790"
+    },
+    {
+      "role": "user",
+      "content": "Tiene piscina?",
+      "timestamp": "2026-05-03T12:13:40.447839"
+    },
+    {
+      "role": "assistant",
+      "content": "Sí, el conjunto cuenta con una piscina comunitaria.",
+      "timestamp": "2026-05-03T12:13:40.450037"
+    },
+    {
+      "role": "user",
+      "content": "A qué horas abre?",
+      "timestamp": "2026-05-03T12:13:51.153822"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T12:13:51.160769"
+    },
+    {
+      "role": "user",
+      "content": "Tiene administrador?",
+      "timestamp": "2026-05-03T12:14:12.131752"
+    },
+    {
+      "role": "assistant",
+      "content": "Sí, el administrador es el Sr. Juan Pérez.",
+      "timestamp": "2026-05-03T12:14:12.140764"
+    },
+    {
+      "role": "user",
+      "content": "Y su número?",
+      "timestamp": "2026-05-03T12:14:22.114597"
+    },
+    {
+      "role": "assistant",
+      "content": "El teléfono del administrador es +57 300 123 4567.",
+      "timestamp": "2026-05-03T12:14:22.114597"
+    },
+    {
+      "role": "user",
+      "content": "Y su correo?",
+      "timestamp": "2026-05-03T12:14:32.221038"
+    },
+    {
+      "role": "assistant",
+      "content": "El correo del administrador es admin@villaverde.com.",
+      "timestamp": "2026-05-03T12:14:32.227106"
+    },
+    {
+      "role": "user",
+      "content": "Hay seguridad?",
+      "timestamp": "2026-05-03T12:15:58.307521"
+    },
+    {
+      "role": "assistant",
+      "content": "Sí, hay vigilancia 24/7 con cámaras y personal de seguridad.",
+      "timestamp": "2026-05-03T12:15:58.315332"
+    },
+    {
+      "role": "user",
+      "content": "Puedo hacer ruido a las 3 am?",
+      "timestamp": "2026-05-03T12:16:29.558357"
+    },
+    {
+      "role": "assistant",
+      "content": "No, hay un horario de silencio de 10:00 PM a 6:00 AM para respetar la tranquilidad de todos.",
+      "timestamp": "2026-05-03T12:16:29.563708"
+    },
+    {
+      "role": "user",
+      "content": "Tiene gimnasio?",
+      "timestamp": "2026-05-03T12:19:17.699355"
+    },
+    {
+      "role": "assistant",
+      "content": "Sí, hay un gimnasio en el conjunto residencial.",
+      "timestamp": "2026-05-03T12:19:17.699355"
+    },
+    {
+      "role": "user",
+      "content": "Y a qué horas abre?",
+      "timestamp": "2026-05-03T12:19:29.141006"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T12:19:29.141006"
+    },
+    {
+      "role": "user",
+      "content": "Y la administración?",
+      "timestamp": "2026-05-03T12:19:40.709454"
+    },
+    {
+      "role": "assistant",
+      "content": "La administración del conjunto residencial está a cargo del Sr. Juan Pérez, y puedes contactarlo al teléfono +57 300 123 4567 o por correo electrónico a admin@villaverde.com. La oficina de administración está abierta de lunes a viernes de 8:00 AM a 5:00 PM.",
+      "timestamp": "2026-05-03T12:19:40.709454"
+    },
+    {
+      "role": "user",
       "content": "Se permiten mascotas?",
-      "timestamp": "2026-04-24T16:23:41.183441"
+      "timestamp": "2026-05-03T13:13:52.824254"
     },
     {
       "role": "assistant",
       "content": "Sí, se permiten mascotas, pero deben estar siempre con correa y no en áreas comunes sin supervisión.",
-      "timestamp": "2026-04-24T16:23:41.189899"
+      "timestamp": "2026-05-03T13:13:52.834270"
+    },
+    {
+      "role": "user",
+      "content": "Responde la pregunta anterior",
+      "timestamp": "2026-05-03T13:16:13.322782"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T13:16:13.325525"
+    },
+    {
+      "role": "user",
+      "content": "Qué te he dicho anteriormente?",
+      "timestamp": "2026-05-03T13:16:30.762142"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T13:16:30.778595"
+    },
+    {
+      "role": "user",
+      "content": "Se permiten mascotas?",
+      "timestamp": "2026-05-03T13:17:13.258420"
+    },
+    {
+      "role": "assistant",
+      "content": "Sí, se permiten mascotas, pero deben estar siempre con correa y no en áreas comunes sin supervisión.",
+      "timestamp": "2026-05-03T13:17:13.258420"
+    },
+    {
+      "role": "user",
+      "content": "Las fiestas pueden ser notificadas con un día de antelación?",
+      "timestamp": "2026-05-03T13:17:43.830258"
+    },
+    {
+      "role": "assistant",
+      "content": "No, los eventos deben ser notificados a la administración con al menos 48 horas de antelación.",
+      "timestamp": "2026-05-03T13:17:43.849338"
+    },
+    {
+      "role": "user",
+      "content": "Puedes ayudarme con una PQRD?",
+      "timestamp": "2026-05-03T13:18:20.891051"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T13:18:20.903152"
+    },
+    {
+      "role": "user",
+      "content": "Hay gimnasio?",
+      "timestamp": "2026-05-03T13:18:46.423603"
+    },
+    {
+      "role": "assistant",
+      "content": "Sí, hay un gimnasio en el conjunto residencial.",
+      "timestamp": "2026-05-03T13:18:46.431072"
+    },
+    {
+      "role": "user",
+      "content": "Y a qué horas abre?",
+      "timestamp": "2026-05-03T13:18:58.690132"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T13:18:58.694364"
+    },
+    {
+      "role": "user",
+      "content": "Qué te he dicho anteriormente",
+      "timestamp": "2026-05-03T13:19:16.253095"
+    },
+    {
+      "role": "assistant",
+      "content": "Anteriormente, me preguntaste sobre el horario de apertura de algo, pero no especificaste qué era. También me preguntaste si había un gimnasio en el conjunto residencial y si podía ayudarte con una PQRD.",
+      "timestamp": "2026-05-03T13:19:16.253920"
+    },
+    {
+      "role": "user",
+      "content": "A qué horas abre?",
+      "timestamp": "2026-05-03T19:23:52.343924"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T19:23:52.353714"
+    },
+    {
+      "role": "user",
+      "content": "Qué te he preguntado anteriormente?",
+      "timestamp": "2026-05-03T19:25:02.461270"
+    },
+    {
+      "role": "assistant",
+      "content": "Anteriormente, me preguntaste sobre el horario de apertura de algo, pero no especificaste qué era. También me preguntaste si había un gimnasio en el conjunto residencial y si podía ayudarte con una PQRD, y sobre a qué horas abre algo, pero no tengo más detalles al respecto.",
+      "timestamp": "2026-05-03T19:25:02.476316"
+    },
+    {
+      "role": "user",
+      "content": "Cuáles fueron mis últimas dos preguntas?",
+      "timestamp": "2026-05-03T19:25:28.047070"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T19:25:28.057082"
+    },
+    {
+      "role": "user",
+      "content": "¿A qué horas abre?",
+      "timestamp": "2026-05-03T19:32:42.568740"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T19:32:42.579791"
+    },
+    {
+      "role": "user",
+      "content": "¿A qué horas abre?",
+      "timestamp": "2026-05-03T19:33:11.979348"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T19:33:11.991474"
+    },
+    {
+      "role": "user",
+      "content": "¿Hay parque infantil?",
+      "timestamp": "2026-05-03T19:34:10.765210"
+    },
+    {
+      "role": "assistant",
+      "content": "Sí, hay un parque infantil en el conjunto residencial.",
+      "timestamp": "2026-05-03T19:34:10.775626"
+    },
+    {
+      "role": "user",
+      "content": "¿Tiene horario?",
+      "timestamp": "2026-05-03T19:34:16.108241"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T19:34:16.123970"
+    },
+    {
+      "role": "user",
+      "content": "¿Y seguridad?",
+      "timestamp": "2026-05-03T19:34:28.832025"
+    },
+    {
+      "role": "assistant",
+      "content": "La seguridad es un aspecto importante en Villa Verde. Hay vigilancia 24/7 con cámaras y personal de seguridad. Además, el acceso al conjunto es solo para residentes y visitantes autorizados mediante tarjetas de acceso.",
+      "timestamp": "2026-05-03T19:34:28.842779"
+    },
+    {
+      "role": "user",
+      "content": "Y la piscina?",
+      "timestamp": "2026-05-03T19:35:36.551880"
+    },
+    {
+      "role": "assistant",
+      "content": "La piscina es una de las instalaciones comunitarias disponibles en Villa Verde, pero no tengo información sobre sus horarios de apertura.",
+      "timestamp": "2026-05-03T19:35:36.563296"
     },
     {
       "role": "user",
       "content": "Hay parque?",
-      "timestamp": "2026-04-24T17:23:55.343085"
+      "timestamp": "2026-05-03T19:36:07.017660"
     },
     {
       "role": "assistant",
-      "content": "Sí, hay un parque infantil dentro del conjunto residencial.",
-      "timestamp": "2026-04-24T17:23:55.365681"
+      "content": "Sí, hay un parque infantil en Villa Verde.",
+      "timestamp": "2026-05-03T19:36:07.031174"
     },
     {
       "role": "user",
-      "content": "Hay parque?",
-      "timestamp": "2026-04-24T17:26:41.805676"
+      "content": "A qué horas abre?",
+      "timestamp": "2026-05-03T19:36:11.541419"
     },
     {
       "role": "assistant",
-      "content": "Sí, hay un parque infantil dentro del conjunto residencial.",
-      "timestamp": "2026-04-24T17:26:41.809285"
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T19:36:11.554603"
     },
     {
       "role": "user",
-      "content": "Y guardería?",
-      "timestamp": "2026-04-24T17:26:57.820151"
+      "content": "Te refieres al parque o al jardín?",
+      "timestamp": "2026-05-03T19:36:24.514528"
     },
     {
       "role": "assistant",
-      "content": "Lo siento, no cuento con esa información",
-      "timestamp": "2026-04-24T17:26:57.824579"
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T19:36:24.528075"
+    },
+    {
+      "role": "user",
+      "content": "Cuáles son los métodos de pago?",
+      "timestamp": "2026-05-03T21:27:39.638003"
+    },
+    {
+      "role": "assistant",
+      "content": "Los métodos de pago son transferencia bancaria, pago en línea y pago presencial en administración.",
+      "timestamp": "2026-05-03T21:27:39.659215"
+    },
+    {
+      "role": "user",
+      "content": "Links de pago",
+      "timestamp": "2026-05-03T21:31:54.110890"
+    },
+    {
+      "role": "assistant",
+      "content": "Los links de pago son: https://pagos.villaverde.com/administracion para administración y https://pagos.villaverde.com/servicios para servicios públicos.",
+      "timestamp": "2026-05-03T21:31:54.119367"
+    },
+    {
+      "role": "user",
+      "content": "Tiene piscina?",
+      "timestamp": "2026-05-03T21:32:18.009135"
+    },
+    {
+      "role": "assistant",
+      "content": "Sí, el conjunto residencial cuenta con una piscina que abre de 6:00 AM a 9:00 PM.",
+      "timestamp": "2026-05-03T21:32:18.018655"
+    },
+    {
+      "role": "user",
+      "content": "Y gimnasio?",
+      "timestamp": "2026-05-03T21:32:42.373911"
+    },
+    {
+      "role": "assistant",
+      "content": "El gimnasio abre de 5:00 AM a 10:00 PM.",
+      "timestamp": "2026-05-03T21:32:42.382394"
+    },
+    {
+      "role": "user",
+      "content": "Cuál es el correo del administrador?",
+      "timestamp": "2026-05-03T21:34:41.546344"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T21:34:41.558812"
+    },
+    {
+      "role": "user",
+      "content": "Cuáles son los horarios de la administración=",
+      "timestamp": "2026-05-03T21:35:07.840273"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T21:35:07.860220"
+    },
+    {
+      "role": "user",
+      "content": "Quién es el administrador",
+      "timestamp": "2026-05-03T21:35:24.703936"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T21:35:24.723962"
+    },
+    {
+      "role": "user",
+      "content": "De cuánto es el valor de la administración?",
+      "timestamp": "2026-05-03T21:39:23.284494"
+    },
+    {
+      "role": "assistant",
+      "content": "El valor mensual de la administración es de $280.000 COP por unidad habitacional.",
+      "timestamp": "2026-05-03T21:39:23.301747"
+    },
+    {
+      "role": "user",
+      "content": "Hay un administrador?",
+      "timestamp": "2026-05-03T21:39:57.220506"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T21:39:57.232138"
+    },
+    {
+      "role": "user",
+      "content": "Cuál es el nombre del administrador",
+      "timestamp": "2026-05-03T21:44:36.477935"
+    },
+    {
+      "role": "assistant",
+      "content": "El administrador se llama Sr. Juan Pérez.",
+      "timestamp": "2026-05-03T21:44:36.493067"
+    },
+    {
+      "role": "user",
+      "content": "Y su número?",
+      "timestamp": "2026-05-03T21:45:10.064751"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T21:45:10.077670"
+    },
+    {
+      "role": "user",
+      "content": "Nombre del admin",
+      "timestamp": "2026-05-03T21:54:30.375095"
+    },
+    {
+      "role": "assistant",
+      "content": "El administrador se llama Sr. Juan Pérez.",
+      "timestamp": "2026-05-03T21:54:30.383906"
+    },
+    {
+      "role": "user",
+      "content": "Su número es?",
+      "timestamp": "2026-05-03T21:54:44.630341"
+    },
+    {
+      "role": "assistant",
+      "content": "Lo siento, no cuento con esa información.",
+      "timestamp": "2026-05-03T21:54:44.645322"
+    },
+    {
+      "role": "user",
+      "content": "Nombre del admin",
+      "timestamp": "2026-05-03T22:01:09.734495"
+    },
+    {
+      "role": "assistant",
+      "content": "El administrador se llama Sr. Juan Pérez.",
+      "timestamp": "2026-05-03T22:01:09.747697"
+    },
+    {
+      "role": "user",
+      "content": "Links de pago",
+      "timestamp": "2026-05-03T22:02:17.034296"
+    },
+    {
+      "role": "assistant",
+      "content": "Los links de pago son: \n- Administración: https://pagos.villaverde.com/administracion\n- Servicios públicos: https://pagos.villaverde.com/servicios",
+      "timestamp": "2026-05-03T22:02:17.045346"
+    },
+    {
+      "role": "user",
+      "content": "Cuáles son los estatutos del conjunto",
+      "timestamp": "2026-05-03T22:02:56.904475"
+    },
+    {
+      "role": "assistant",
+      "content": "Los estatutos del conjunto establecen que la administración es elegida por la asamblea general de copropietarios cada 2 años. Todos los residentes deben cumplir con el reglamento de propiedad horizontal. Se prohíbe el uso de unidades residenciales para actividades comerciales sin autorización. Las reformas internas deben ser notificadas previamente a la administración. Las decisiones importantes se toman en asamblea con quórum mínimo del 60% de propietarios.",
+      "timestamp": "2026-05-03T22:02:56.914174"
+    },
+    {
+      "role": "user",
+      "content": "Cómo es el uso de áreas comunes?",
+      "timestamp": "2026-05-03T22:03:38.500817"
+    },
+    {
+      "role": "assistant",
+      "content": "Es obligatorio mantener el orden y la limpieza en las áreas comunes; cualquier daño deberá ser reportado y asumido por el responsable.",
+      "timestamp": "2026-05-03T22:03:38.528955"
+    },
+    {
+      "role": "user",
+      "content": "Quiénes tienen acceso al conjunto?",
+      "timestamp": "2026-05-03T22:03:57.711114"
+    },
+    {
+      "role": "assistant",
+      "content": "El acceso al conjunto es solo para residentes y visitantes autorizados mediante tarjetas de acceso.",
+      "timestamp": "2026-05-03T22:03:57.720132"
     }
   ]
 }

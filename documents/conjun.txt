@@ -1,28 +1,74 @@
-Información General del Conjunto Residencial "Villa Verde"
+# Información General del Conjunto Residencial "Villa Verde"
 
 Bienvenidos a Villa Verde, un conjunto residencial cerrado ubicado en las afueras de la ciudad, con 150 unidades habitacionales. Nuestro objetivo es proporcionar un entorno seguro, cómodo y comunitario para todos los residentes.
 
-Descripción del Conjunto:
-- Área total: 50 hectáreas, con zonas verdes, piscina comunitaria, gimnasio y parque infantil.
-- Seguridad: Vigilancia 24/7 con cámaras y personal de seguridad.
-- Acceso: Solo para residentes y visitantes autorizados mediante tarjetas de acceso.
+## Descripción del Conjunto:
 
-Reglas de Convivencia:
-- Horarios de silencio: De 10:00 PM a 6:00 AM, para respetar la tranquilidad de todos.
-- Mascotas: Permitidas, pero deben estar siempre con correa y no en áreas comunes sin supervisión.
-- Estacionamiento: Cada unidad tiene 2 espacios asignados; no se permite estacionar en áreas verdes.
-- Fiestas: Eventos deben ser notificados a la administración con al menos 48 horas de antelación.
+* Área total: 50 hectáreas, con zonas verdes, piscina comunitaria, gimnasio y parque infantil.
+* Seguridad: Vigilancia 24/7 con cámaras y personal de seguridad.
+* Acceso: Solo para residentes y visitantes autorizados mediante tarjetas de acceso.
 
-Servicios Disponibles:
-- Mantenimiento: Servicio de reparaciones menores gratuito para unidades.
-- Limpieza: Áreas comunes limpiadas diariamente.
-- Transporte: Servicio de shuttle a centros comerciales cercanos los fines de semana.
-- Internet: Proveedor incluido en la cuota mensual.
+## Reglas de Convivencia:
 
-Contacto y Administración:
-- Administrador: Sr. Juan Pérez.
-- Teléfono: +57 300 123 4567.
-- Correo: admin@villaverde.com.
-- Horarios de oficina: Lunes a viernes, 8:00 AM a 5:00 PM.
+* Horarios de silencio: De 10:00 PM a 6:00 AM, para respetar la tranquilidad de todos.
+* Mascotas: Permitidas, pero deben estar siempre con correa y no en áreas comunes sin supervisión.
+* Estacionamiento: Cada unidad tiene 2 espacios asignados; no se permite estacionar en áreas verdes.
+* Fiestas: Eventos deben ser notificados a la administración con al menos 48 horas de antelación.
+* Basuras: Deben depositarse en los puntos ecológicos establecidos entre 6:00 AM y 8:00 PM.
+* Uso de áreas comunes: Es obligatorio mantener el orden y la limpieza; cualquier daño deberá ser reportado y asumido por el responsable.
+
+## Estatutos del Conjunto:
+
+* La administración es elegida por la asamblea general de copropietarios cada 2 años.
+* Todos los residentes deben cumplir con el reglamento de propiedad horizontal.
+* Se prohíbe el uso de unidades residenciales para actividades comerciales sin autorización.
+* Las reformas internas deben ser notificadas previamente a la administración.
+* Las decisiones importantes se toman en asamblea con quórum mínimo del 60% de propietarios.
+
+## Pagos y Cuotas:
+
+* Valor mensual de la administración: **$280.000 COP** por unidad habitacional.
+* Fecha límite de pago: Día 10 de cada mes.
+* Recargo por mora: 5% adicional después del día 15.
+
+### Métodos de pago:
+
+* Transferencia bancaria
+* Pago en línea
+* Pago presencial en administración
+
+### Links de pago:
+
+* Administración: [https://pagos.villaverde.com/administracion](https://pagos.villaverde.com/administracion)
+* Servicios públicos: [https://pagos.villaverde.com/servicios](https://pagos.villaverde.com/servicios)
+
+## Servicios Públicos:
+
+* Energía: Facturación mensual independiente.
+* Agua: Incluida parcialmente en la cuota de administración (consumo básico).
+* Gas: Medidor individual por vivienda.
+* Internet: Incluido en la cuota mensual con velocidad base de 100 Mbps.
+
+## Horarios de Áreas Comunes:
+
+* Piscina: 6:00 AM – 9:00 PM
+* Gimnasio: 5:00 AM – 10:00 PM
+* Parque infantil: 6:00 AM – 8:00 PM
+* Salón social: 8:00 AM – 11:00 PM (previa reserva)
+* Zonas verdes: Uso libre respetando normas de convivencia
+
+## Servicios Disponibles:
+
+* Mantenimiento: Servicio de reparaciones menores gratuito para unidades.
+* Limpieza: Áreas comunes limpiadas diariamente.
+* Transporte: Servicio de shuttle a centros comerciales cercanos los fines de semana.
+* Internet: Proveedor incluido en la cuota mensual.
+
+## Contacto y Administración:
+
+* Administrador: Sr. Juan Pérez.
+* Teléfono: +57 300 123 4567.
+* Correo: [admin@villaverde.com](mailto:admin@villaverde.com).
+* Horarios de oficina: Lunes a viernes, 8:00 AM a 5:00 PM.
 
 Si tienes preguntas adicionales, contacta a la administración. ¡Disfruta de tu hogar en Villa Verde!
