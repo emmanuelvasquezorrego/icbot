@@ -25,3 +25,6 @@ qdrant_storage/
 
 # Archivos temporales
 *.tmp
+
+# Archivos de logs
+data/

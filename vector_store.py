@@ -2,7 +2,6 @@
 Módulo para gestión de Qdrant y embeddings
 """
 
-from utils.warningsVecSto import quitar_warnings
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
 from sentence_transformers import SentenceTransformer
@@ -12,6 +11,11 @@ import config
 import shutil
 import os
 import time
+import logging
+
+logging.getLogger("sentence_transformers").setLevel(logging.WARNING)
+logging.getLogger("transformers").setLevel(logging.WARNING)
+
 
 class VectorStore:
 
@@ -35,8 +39,7 @@ class VectorStore:
         
         # Cargar modelo de embeddings
         print(f"Cargando modelo de embeddings: {config.EMBEDDING_MODEL}")
-        with quitar_warnings():
-            self.embedding_model = SentenceTransformer(config.EMBEDDING_MODEL)
+        self.embedding_model = SentenceTransformer(config.EMBEDDING_MODEL)
         
         # Crear colección si no existe
         self._create_collection_if_not_exists()

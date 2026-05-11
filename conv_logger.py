@@ -21,6 +21,11 @@ class ConversationLogger:
         self.lock = threading.Lock()
         os.makedirs(os.path.dirname(config.LOGS_FILE), exist_ok=True)
 
+        # Crear archivo si no existe
+        if not os.path.exists(config.LOGS_FILE):
+            with open(config.LOGS_FILE, 'a', encoding='utf-8') as f:
+                pass
+
     def log_interaction(
         self,
         phone: str,
@@ -39,8 +44,8 @@ class ConversationLogger:
         record = {
             "timestamp": datetime.now().isoformat(),
             "phone": self._mask_phone(phone),
-            "question": question,
-            "answer": answer,
+            "question": question[:config.MAX_LOG_TEXT] + ("..." if len(question) > config.MAX_LOG_TEXT else ""),
+            "answer": answer[:config.MAX_LOG_TEXT] + ("..." if len(answer) > config.MAX_LOG_TEXT else ""),
             "sources": [
                 {
                     "source": doc["metadata"]["source"],
@@ -58,8 +63,8 @@ class ConversationLogger:
             try:
                 with open(config.LOGS_FILE, "a", encoding="utf-8") as f:
                     f.write(json.dumps(record, ensure_ascii=False) + "\n")
-            except Exception as e:
-                logger.error(f"Error guardando log: {e}")
+            except Exception:
+                logger.exception("Error guardando log")
 
     def log_rate_limit_event(self, phone: str, reason: str):
 
@@ -75,8 +80,8 @@ class ConversationLogger:
             try:
                 with open(config.LOGS_FILE, "a", encoding="utf-8") as f:
                     f.write(json.dumps(record, ensure_ascii=False) + "\n")
-            except Exception as e:
-                logger.error(f"Error guardando log de rate limit: {e}")
+            except Exception:
+                logger.exception("Error guardando log de rate limit")
 
     @staticmethod
     def _mask_phone(phone: str) -> str:

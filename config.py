@@ -8,6 +8,18 @@ from dotenv import load_dotenv
 # Cargar variables de entorno
 load_dotenv()
 
+# Lista de placeholders a rechazar (case-insensitive)
+_PLACEHOLDERS = [
+    "tu_api_key", "your-api-key", "api_key_aqui", "cambiar_en_produccion",
+    "changeme", "placeholder", "test", "your_token", "your_secret"
+]
+
+def _is_invalid(value: str) -> bool:
+    if not value:
+        return True
+    low = value.lower()
+    return any(p in low for p in _PLACEHOLDERS)
+
 # Configuración de Groq
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
@@ -42,15 +54,16 @@ WHATSAPP_VERIFY_TOKEN   = os.getenv("WHATSAPP_VERIFY_TOKEN") # Token para verifi
 WHATSAPP_APP_SECRET     = os.getenv("WHATSAPP_APP_SECRET")
  
 # Flask
-FLASK_SECRET_KEY = os.getenv("FLASK_SECRET_KEY", "cambiar_en_produccion")
+FLASK_SECRET_KEY = os.getenv("FLASK_SECRET_KEY")
 FLASK_DEBUG      = os.getenv("FLASK_DEBUG", "false").lower() == "true"
 PORT             = int(os.getenv("PORT", 5000))
  
 # Conversaciones (multi-usuario)
 CONVERSATIONS_FILE = "./data/conversations.json"
  
-# Logs
+# Logger de conversaciones
 LOGS_FILE = "./data/logs.jsonl"
+MAX_LOG_TEXT = 500
  
 # Rate Limiter
 RATE_LIMIT_MAX_MESSAGES   = 3 # Máximo de mensajes por ventana de tiempo
@@ -64,10 +77,14 @@ _required = {
     "WHATSAPP_PHONE_NUMBER_ID": WHATSAPP_PHONE_NUMBER_ID,
     "WHATSAPP_VERIFY_TOKEN": WHATSAPP_VERIFY_TOKEN,
     "WHATSAPP_APP_SECRET": WHATSAPP_APP_SECRET,
+    "FLASK_SECRET_KEY": FLASK_SECRET_KEY,
 }
  
-_missing = [k for k, v in _required.items() if not v]
-if _missing:
+_invalid_keys = [k for k, v in _required.items() if _is_invalid(v)]
+
+if _invalid_keys:
+    
     raise ValueError(
-        f"Faltan variables de entorno obligatorias: {', '.join(_missing)}\n"
+        "Error de configuración: algunas variables de entorno son inválidas o faltan.\n"
+        "Asegúrate de que todas las credenciales estén definidas en el archivo .env con valores reales (no placeholders)."
     )
