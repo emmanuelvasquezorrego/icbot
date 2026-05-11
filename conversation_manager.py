@@ -20,12 +20,17 @@ class ConversationManager:
 
     """
     Gestiona el historial de conversaciones por usuario.
-    Thread-safe para uso con Gunicorn multi-worker.
+    Thread-safe para concurrencia dentro de un mismo worker.
     """
 
     def __init__(self):
         self.conversations: dict[str, deque] = {}
         self.lock = threading.Lock()
+
+        # Asegurar que el directorio existe
+        os.makedirs(
+            os.path.dirname(config.CONVERSATIONS_FILE), exist_ok=True)
+
         self._load_from_disk()
 
     def add_message(self, phone: str, role: str, content: str):
@@ -119,8 +124,6 @@ class ConversationManager:
         """Guardar historial en JSON. Llamar siempre dentro del lock."""
 
         try:
-            os.makedirs(os.path.dirname(config.CONVERSATIONS_FILE), exist_ok=True)
-
             # Convertir deques a listas para serializar
             serializable = {
                 phone: list(msgs)
@@ -129,12 +132,14 @@ class ConversationManager:
 
             # Escritura atómica: escribir en temp y luego rename
             tmp_path = config.CONVERSATIONS_FILE + ".tmp"
+
             with open(tmp_path, "w", encoding="utf-8") as f:
                 json.dump(serializable, f, ensure_ascii=False, indent=2)
+
             os.replace(tmp_path, config.CONVERSATIONS_FILE)
 
-        except Exception as e:
-            logger.error(f"Error guardando conversaciones: {e}")
+        except Exception:
+            logger.exception("Error guardando conversaciones")
 
     def _load_from_disk(self):
 
@@ -159,5 +164,5 @@ class ConversationManager:
                 f"Historial cargado: {len(self.conversations)} usuarios"
             )
 
-        except (json.JSONDecodeError, Exception) as e:
-            logger.error(f"Error cargando conversaciones, iniciando vacío: {e}")
+        except Exception:
+            logger.exception("Error cargando conversaciones, iniciando vacío")

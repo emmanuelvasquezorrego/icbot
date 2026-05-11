@@ -23,13 +23,11 @@ def format_response(answer: str, sources: list[dict] = None, is_first_message: b
         message = (
             f"👋 ¡Hola!\n\n"
             f"{clean_answer}\n\n"
-            f"¿Tienes otra duda? 😊"
         )
     else:
         # Mensajes siguientes: solo respuesta
         message = (
             f"{clean_answer}\n\n"
-            f"¿Tienes otra duda? 😊"
         )
     
     return message

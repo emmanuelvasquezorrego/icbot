@@ -4,6 +4,7 @@ Implementación en memoria con ventana deslizante.
 Thread-safe.
 """
 
+import re
 import threading
 import time
 import logging
@@ -18,6 +19,18 @@ class RateLimiter:
     """
     Limita la cantidad de mensajes por usuario en una ventana de tiempo con sliding window.
     """
+
+    @staticmethod
+    def _normalize_phone(phone: str) -> str:
+
+        """Normaliza el número de teléfono eliminando espacios, '+' y dígitos no significativos."""
+
+        if not phone:
+            return ""
+        
+        # Eliminar espacios y caracteres no numéricos
+        normalized = re.sub(r'[^0-9]', '', phone)
+        return normalized
 
     def __init__(self):
         # Deque de timestamps
@@ -39,6 +52,8 @@ class RateLimiter:
         - (False, "notify") → bloquear + enviar warning
         - (False, "silent") → bloquear sin enviar nada
         """
+
+        phone = self._normalize_phone(phone)
 
         with self.lock:
             now = time.time()
@@ -87,6 +102,8 @@ class RateLimiter:
     def get_usage(self, phone: str) -> dict:
 
         """Obtener estadísticas de uso."""
+
+        phone = self._normalize_phone(phone)
 
         with self.lock:
             now = time.time()

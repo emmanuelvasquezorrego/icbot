@@ -7,6 +7,7 @@ import hashlib
 import hmac
 import logging
 import time
+import re
 from threading import Thread
 
 from flask import Flask, request, jsonify, abort
@@ -54,10 +55,20 @@ def verify_meta_signature(request_data: bytes, signature_header: str) -> bool:
     Verificar que el webhook realmente proviene de Meta usando HMAC-SHA256.
     """
 
+    if not config.WHATSAPP_APP_SECRET:
+        logger.error("WHATSAPP_APP_SECRET no configurado")
+        return False
+
     if not signature_header or not signature_header.startswith("sha256="):
         return False
 
-    expected_signature = signature_header[len("sha256="):]
+    expected_signature = signature_header[len("sha256="):].strip()
+
+    # Validar formato hexadecimal SHA256
+    if not re.fullmatch(r"[a-fA-F0-9]{64}", expected_signature):
+        logger.warning("Firma HMAC con formato inválido")
+        return False
+
     computed = hmac.new(
         config.WHATSAPP_APP_SECRET.encode("utf-8"),
         request_data,
