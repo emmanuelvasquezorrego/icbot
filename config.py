@@ -57,13 +57,18 @@ WHATSAPP_APP_SECRET     = os.getenv("WHATSAPP_APP_SECRET")
 FLASK_SECRET_KEY = os.getenv("FLASK_SECRET_KEY")
 FLASK_DEBUG      = os.getenv("FLASK_DEBUG", "false").lower() == "true"
 PORT             = int(os.getenv("PORT", 5000))
+MAX_REQUEST_SIZE_MB = 1
+MAX_MESSAGE_LENGTH = 2000
  
 # Conversaciones (multi-usuario)
 CONVERSATIONS_FILE = "./data/conversations.json"
  
 # Logger de conversaciones
 LOGS_FILE = "./data/logs.jsonl"
-MAX_LOG_TEXT = 500
+MAX_LOG_TEXT = 500 # Máximo de caracteres a guardar para preguntas y respuestas en el log
+
+# Document loader
+MAX_DOCUMENT_FILE_MB = 5
  
 # Rate Limiter
 RATE_LIMIT_MAX_MESSAGES   = 3 # Máximo de mensajes por ventana de tiempo

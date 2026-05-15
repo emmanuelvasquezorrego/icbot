@@ -7,13 +7,12 @@ Convierte la respuesta cruda del RAG en un mensaje amigable con emojis.
 from config import RATE_LIMIT_BLOCK_SECONDS
 
 
-def format_response(answer: str, sources: list[dict] = None, is_first_message: bool = False) -> str:
+def format_response(answer: str, is_first_message: bool = False) -> str:
     """
     Formatear la respuesta del RAG para WhatsApp.
     
     Args:
         answer: Respuesta del RAG
-        sources: Documentos fuente (opcional)
         is_first_message: Si es True, incluye saludo completo
     """
     clean_answer = answer.strip()
@@ -31,14 +30,6 @@ def format_response(answer: str, sources: list[dict] = None, is_first_message: b
         )
     
     return message
-
-
-def format_no_info_response() -> str:
-    """Respuesta cuando el bot no tiene información sobre el tema."""
-    return (
-        "🔍 No encontré información sobre eso en mi base de conocimiento.\n\n"
-        "Intenta reformular tu pregunta o consulta sobre otro tema. 😊"
-    )
 
 
 def format_rate_limit_response(seconds_remaining: int = None) -> str:
