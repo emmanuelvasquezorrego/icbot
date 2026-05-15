@@ -9,10 +9,10 @@ import logging
 import time
 import re
 from threading import Thread
+import config
 
 from flask import Flask, request, jsonify, abort
 
-import config
 from whatsapp_client import WhatsAppClient
 from conversation_manager import ConversationManager
 from rate_limiter import RateLimiter
@@ -36,6 +36,7 @@ logger = logging.getLogger(__name__)
 
 # Flask
 app = Flask(__name__)
+app.config["MAX_CONTENT_LENGTH"] = (config.MAX_REQUEST_SIZE_MB * 1024 * 1024)  # Limitar tamaño del payload a 1 MB
 app.secret_key = config.FLASK_SECRET_KEY
 
 # Inicializar componentes globales (clientes, gestores, etc.)
@@ -47,7 +48,7 @@ conv_log   = ConversationLogger()
 
 logger.info("Cargando agente RAG (puede tardar unos segundos)...")
 rag_agent  = RAGAgent(conversation_manager=conv_mgr)
-logger.info("Agente RAG listo ✓")
+logger.info("Agente RAG listo")
 
 def verify_meta_signature(request_data: bytes, signature_header: str) -> bool:
 
@@ -88,25 +89,15 @@ CLEAR_COMMANDS = {"limpiar", "clear", "borrar", "/limpiar", "/clear", "/borrar"}
 
 
 def process_message(phone: str, message_id: str, text: str):
+
     """
     Procesar un mensaje entrante de WhatsApp.
     """
+
     start_time = time.time()
     
     # Marcar como leído
     whatsapp.mark_as_read(message_id)
-    
-    # ── Rate limiting ──────────────────────────────────────
-    allowed, reason = rate_lim.is_allowed(phone)
-    
-    if not allowed:
-        if reason == "notify":
-            response_text = format_rate_limit_response()
-            whatsapp.send_message(phone, response_text)
-            conv_log.log_rate_limit_event(phone, "rate_limit_notify")
-        else:
-            conv_log.log_rate_limit_event(phone, "rate_limit_silent")
-        return
     
     text_lower = text.strip().lower()
     
@@ -135,7 +126,6 @@ def process_message(phone: str, message_id: str, text: str):
         # Formatear respuesta según si es primer mensaje o no
         response_text = format_response(
             answer=answer,
-            sources=retrieved_docs,
             is_first_message=is_first  # ← Pasar el indicador
         )
         
@@ -194,10 +184,12 @@ def webhook_receive():
 
     # Parsear payload
     data = request.get_json(silent=True)
+
     if not data:
         return jsonify({"status": "ignored"}), 200
 
     parsed = whatsapp.parse_webhook_message(data)
+
     if not parsed:
         # Puede ser un status update (mensaje entregado, leído, etc.)
         return jsonify({"status": "ignored"}), 200
@@ -205,6 +197,34 @@ def webhook_receive():
     phone      = parsed["from"]
     message_id = parsed["message_id"]
     text       = parsed["text"]
+
+    # ── Rate limiting ──────────────────────────────────────
+    allowed, reason = rate_lim.is_allowed(phone)
+    
+    if not allowed:
+        if reason == "notify":
+            response_text = format_rate_limit_response()
+            whatsapp.send_message(phone, response_text)
+            conv_log.log_rate_limit_event(phone, "rate_limit_notify")
+        else:
+            conv_log.log_rate_limit_event(phone, "rate_limit_silent")
+
+        return jsonify({"status": "rate_limited"}), 200
+
+    # Validar longitud del mensaje
+    if len(text) > config.MAX_MESSAGE_LENGTH:
+        logger.warning(
+            f"Mensaje demasiado largo de "
+            f"{phone[:3]}***{phone[-3:]}: "
+            f"{len(text)} caracteres"
+        )
+
+        whatsapp.send_message(
+            phone,
+            f"El mensaje es demasiado largo. Máximo {config.MAX_MESSAGE_LENGTH} caracteres."
+        )
+
+        return jsonify({"status": "message_too_long"}), 200
 
     logger.info(f"Mensaje de {phone[:3]}***{phone[-3:]}: '{text[:50]}'")
 

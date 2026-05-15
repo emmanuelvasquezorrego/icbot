@@ -21,11 +21,6 @@ class ConversationLogger:
         self.lock = threading.Lock()
         os.makedirs(os.path.dirname(config.LOGS_FILE), exist_ok=True)
 
-        # Crear archivo si no existe
-        if not os.path.exists(config.LOGS_FILE):
-            with open(config.LOGS_FILE, 'a', encoding='utf-8') as f:
-                pass
-
     def log_interaction(
         self,
         phone: str,

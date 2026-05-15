@@ -5,32 +5,76 @@ Módulo para cargar y procesar documentos TXT y PDF
 import os
 from typing import List
 from pypdf import PdfReader
+import re
+import logging
+import config
+
+logger = logging.getLogger(__name__)
 
 
 class DocumentLoader:
 
     """Clase para cargar documentos desde archivos locales"""
     
+    ALLOWED_EXTENSIONS = {'.txt', '.pdf'}
+
     def __init__(self, documents_path: str):
         self.documents_path = documents_path
+        self.max_file_bytes = config.MAX_DOCUMENT_FILE_MB * 1024 * 1024
+
+    def _sanitize_text(self, text: str) -> str:
+        return re.sub(
+            r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]',
+            '',
+            text
+        ).strip()
+
+    def _validate_size(self, filepath: str):
+
+        file_size = os.path.getsize(filepath)
+
+        if file_size > self.max_file_bytes:
+            raise ValueError(
+                f"Archivo demasiado grande: {file_size} bytes"
+            )
+
+    def _validate_extension(self, filename: str):
+
+        ext = os.path.splitext(filename)[1].lower()
+
+        if ext not in self.ALLOWED_EXTENSIONS:
+            raise ValueError(
+                f"Extensión no permitida: {ext}"
+            )
         
     def load_txt(self, filepath: str) -> str:
 
         """Cargar archivo TXT"""
 
+        self._validate_size(filepath)
+
         with open(filepath, 'r', encoding='utf-8') as f:
-            return f.read()
-    
+            text = f.read()
+
+        return self._sanitize_text(text)
+
     def load_pdf(self, filepath: str) -> str:
         
         """Cargar archivo PDF"""
 
+        self._validate_size(filepath)
+
         reader = PdfReader(filepath)
         text = ""
+
         for page in reader.pages:
-            text += page.extract_text() + "\n"
-        return text
-    
+            page_text = page.extract_text()
+
+            if page_text:
+                text += page_text + "\n"
+
+        return self._sanitize_text(text)
+
     def load_all_documents(self) -> List[dict]:
 
         """
@@ -46,18 +90,21 @@ class DocumentLoader:
         documents = []
         
         for filename in os.listdir(self.documents_path):
+
             filepath = os.path.join(self.documents_path, filename)
             
             if not os.path.isfile(filepath):
                 continue
             
             try:
+                # Validar extensión permitida
+                self._validate_extension(filename)
+
                 if filename.endswith('.txt'):
                     content = self.load_txt(filepath)
+
                 elif filename.endswith('.pdf'):
                     content = self.load_pdf(filepath)
-                else:
-                    continue
                 
                 documents.append({
                     'content': content,
@@ -66,10 +113,11 @@ class DocumentLoader:
                         'type': filename.split('.')[-1]
                     }
                 })
-                print(f"Cargado: {filename}")
+
+                logger.info(f" Documento cargado: {filename}")
                 
             except Exception as e:
-                print(f"Error cargando {filename}: {e}")
+                logger.warning(f"Archivo rechazado ({filename}): {e}")
         
         return documents
     
