@@ -56,7 +56,15 @@ def format_welcome_message() -> str:
     return (
         "👋 ¡Bienvenid@!\n\n"
         "Hola, soy TribuBot. Estoy aquí para ayudarte a encontrar información sobre "
-        "dudas que tengas acerca de tu conjunto residencial. Puedes hacerme cualquier pregunta relacionada.\n\n"
+        "tu conjunto residencial.\n\n"
+        "*Puedo ayudarte con:*\n"
+        "• Horarios de áreas comunes\n"
+        "• Pagos y cuotas de administración\n"
+        "• Normas de convivencia\n"
+        "• Información general del conjunto\n\n"
+        "*Comandos disponibles:*\n"
+        "• */pqrs* → Radicar una Petición, Queja o Reclamo\n"
+        "• */limpiar* → Borrar historial de conversación\n\n"
         "¿En qué te puedo ayudar? 😊"
     )
 
@@ -66,4 +74,34 @@ def format_history_cleared_response() -> str:
     return (
         "🗑️ Tu historial de conversación fue borrado.\n\n"
         "Podemos empezar de nuevo. 😊"
+    )
+
+
+def format_pqr_info() -> str:
+
+    """Comando /pqrs explícito — información completa."""
+
+    return (
+        "📋 *Peticiones, Quejas y Reclamos (PQR)*\n\n"
+        "Las PQR deben ser atendidas directamente por la administración.\n\n"
+        "*¿Cómo radicar tu PQR?*\n"
+        "*Comunícate a:*\n"
+        "• 📧 Correo: admin@villaverde.com\n"
+        "• 📞 Teléfono: +57 300 123 4567\n"
+        "• 🕐 Horario: Lunes a viernes, 8:00 AM – 5:00 PM\n\n"
+        "Tu solicitud será atendida en un plazo máximo de *5 días hábiles*."
+    )
+
+
+def format_pqr_redirect() -> str:
+
+    """Detección por keyword — redirección breve."""
+
+    return (
+        "Lo siento. Eso está fuera de lo que puedo ayudarte.\n\n"
+        "Para este tipo de situaciones, contacta directamente "
+        "a la administración:\n"
+        "• 📧 admin@villaverde.com\n"
+        "• 📞 +57 300 123 4567\n"
+        "• 🕐 Lunes a viernes, 8:00 AM – 5:00 PM"
     )

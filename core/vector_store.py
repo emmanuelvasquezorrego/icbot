@@ -13,6 +13,8 @@ import os
 import time
 import logging
 
+logger = logging.getLogger(__name__)
+
 logging.getLogger("sentence_transformers").setLevel(logging.WARNING)
 logging.getLogger("transformers").setLevel(logging.WARNING)
 
@@ -25,7 +27,7 @@ class VectorStore:
         # Inicializar cliente Qdrant
         if config.QDRANT_HOST and config.QDRANT_PORT:
             # Modo cliente-servidor (Docker/Cloud)
-            print(f"Conectando a Qdrant en {config.QDRANT_HOST}:{config.QDRANT_PORT}")
+            logger.info(f"Conectando a Qdrant en {config.QDRANT_HOST}:{config.QDRANT_PORT}")
             self.client = QdrantClient(
                 host=config.QDRANT_HOST,
                 port=config.QDRANT_PORT
@@ -33,12 +35,12 @@ class VectorStore:
             self.embedded_mode = False
         else:
             # Modo embebido (sin Docker)
-            print(f"Iniciando Qdrant en modo local: {config.QDRANT_PATH}")
+            logger.info(f"Iniciando Qdrant en modo local: {config.QDRANT_PATH}")
             self.client = QdrantClient(path=config.QDRANT_PATH)
             self.embedded_mode = True
         
         # Cargar modelo de embeddings
-        print(f"Cargando modelo de embeddings: {config.EMBEDDING_MODEL}")
+        logger.info(f"Cargando modelo de embeddings: {config.EMBEDDING_MODEL}")
         self.embedding_model = SentenceTransformer(config.EMBEDDING_MODEL)
         
         # Crear colección si no existe
@@ -52,7 +54,7 @@ class VectorStore:
         collection_names = [col.name for col in collections]
         
         if config.COLLECTION_NAME not in collection_names:
-            print(f"Creando colección: {config.COLLECTION_NAME}")
+            logger.info(f"Creando colección: {config.COLLECTION_NAME}")
             self.client.create_collection(
                 collection_name=config.COLLECTION_NAME,
                 vectors_config=VectorParams(
@@ -61,7 +63,7 @@ class VectorStore:
                 )
             )
         else:
-            print(f"Colección '{config.COLLECTION_NAME}' ya existe")
+            logger.info(f"Colección '{config.COLLECTION_NAME}' ya existe")
     
     def embed_texts(self, texts: List[str]) -> List[List[float]]:
         
@@ -74,7 +76,7 @@ class VectorStore:
         )
         return embeddings.tolist()
     
-    def add_documents(self, documents: List[Dict], chunk_size: int = 1000):
+    def add_documents(self, documents: List[Dict], chunk_size: int = config.CHUNK_SIZE):
 
         """
         Agregar documentos a Qdrant
@@ -92,7 +94,7 @@ class VectorStore:
         
         for doc in documents:
             # Dividir en chunks
-            chunks = loader.chunk_text(doc['content'], chunk_size=chunk_size)
+            chunks = loader.chunk_text(doc['content'], chunk_size=chunk_size, overlap=config.CHUNK_OVERLAP)
             
             for i, chunk in enumerate(chunks):
                 all_chunks.append(chunk)
@@ -103,10 +105,10 @@ class VectorStore:
                 })
                 chunk_counter += 1
         
-        print(f"\nGenerando embeddings para {chunk_counter} chunks...")
+        logger.info(f"\nGenerando embeddings para {chunk_counter} chunks...")
         embeddings = self.embed_texts(all_chunks)
         
-        print(f"Guardando en Qdrant...")
+        logger.info(f"Guardando en Qdrant...")
         
         # Preparar puntos para Qdrant
         points = []
@@ -126,9 +128,9 @@ class VectorStore:
             points=points
         )
         
-        print(f"{chunk_counter} chunks indexados exitosamente")
+        logger.info(f"{chunk_counter} chunks indexados exitosamente")
     
-    def search(self, query: str, top_k: int = 3) -> List[Dict]:
+    def search(self, query: str, top_k: int = config.TOP_K_RESULTS) -> List[Dict]:
 
         """
         Buscar documentos similares a la query
@@ -137,10 +139,7 @@ class VectorStore:
 
         # Generar embedding de la query
         query_embedding = self.embed_texts([query])[0]
-        
-        # Buscar en Qdrant usando query_points (Qdrant 1.17.0+)
-        from qdrant_client.models import QueryRequest, VectorParams as QueryVector
-        
+                
         results = self.client.query_points(
             collection_name=config.COLLECTION_NAME,
             query=query_embedding,
@@ -178,11 +177,11 @@ class VectorStore:
 
         try:
             if self.embedded_mode:
-                print("Realizando reset físico...")
+                logger.info("Realizando reset físico...")
                 
                 # Cerrar cliente actual
                 self.client.close()
-                print("Cliente Qdrant cerrado")
+                logger.info("Cliente Qdrant cerrado")
                 
                 # Tiempo para que el SO libere los archivos
                 time.sleep(0.5)
@@ -190,30 +189,30 @@ class VectorStore:
                 # Eliminar físicamente el directorio de storage
                 if os.path.exists(config.QDRANT_PATH):
                     shutil.rmtree(config.QDRANT_PATH)
-                    print(f"Storage físico eliminado: {config.QDRANT_PATH}")
+                    logger.info(f"Storage físico eliminado: {config.QDRANT_PATH}")
                 
                 # Recrear el cliente (esto recreará el directorio)
                 self.client = QdrantClient(path=config.QDRANT_PATH)
-                print("Cliente Qdrant reinicializado")
+                logger.info("Cliente Qdrant reinicializado")
                 
                 # Crear colección limpia
                 self._create_collection_if_not_exists()
-                print("Colección recreada desde cero")
+                logger.info("Colección recreada desde cero")
                 
             else:
                 # Modo cliente-servidor: solo eliminar colección
-                print("Eliminando colección...")
+                logger.info("Eliminando colección...")
                 try:
                     self.client.delete_collection(config.COLLECTION_NAME)
-                    print(f"Colección '{config.COLLECTION_NAME}' eliminada")
+                    logger.info(f"Colección '{config.COLLECTION_NAME}' eliminada")
                 except Exception as e:
-                    print(f"No se pudo eliminar la colección: {e}")
+                    logger.info(f"No se pudo eliminar la colección: {e}")
                 
                 self._create_collection_if_not_exists()
-                print("Colección recreada")
+                logger.info("Colección recreada")
                 
         except Exception as e:
-            print(f"Error durante el reset: {e}")
+            logger.info(f"Error durante el reset: {e}")
             raise
         
-        print("Reset completado exitosamente")
+        logger.info("Reset completado exitosamente")

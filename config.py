@@ -47,6 +47,10 @@ DOCUMENTS_PATH = os.getenv("DOCUMENTS_PATH", "./documents")
 # Configuración de retrieval
 TOP_K_RESULTS = int(os.getenv("TOP_K_RESULTS", "5"))
 
+# Configuración de chunking
+CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "400"))
+CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", "50"))
+
 # WhatsApp Cloud API (Meta)
 WHATSAPP_ACCESS_TOKEN   = os.getenv("WHATSAPP_ACCESS_TOKEN")
 WHATSAPP_PHONE_NUMBER_ID = os.getenv("WHATSAPP_PHONE_NUMBER_ID")
@@ -60,9 +64,6 @@ PORT             = int(os.getenv("PORT", 5000))
 MAX_REQUEST_SIZE_MB = 1
 MAX_MESSAGE_LENGTH = 2000
  
-# Conversaciones (multi-usuario)
-CONVERSATIONS_FILE = "./data/conversations.json"
- 
 # Logger de conversaciones
 LOGS_FILE = "./data/logs.jsonl"
 MAX_LOG_TEXT = 500 # Máximo de caracteres a guardar para preguntas y respuestas en el log
@@ -74,6 +75,14 @@ MAX_DOCUMENT_FILE_MB = 5
 RATE_LIMIT_MAX_MESSAGES   = 3 # Máximo de mensajes por ventana de tiempo
 RATE_LIMIT_WINDOW_SECONDS = 20 # Ventana de tiempo en segundos
 RATE_LIMIT_BLOCK_SECONDS  = 60 # Tiempo que se bloquea al usuario si excede el límite
+
+# Configuración de Redis para rate limiting y almacenamiento temporal
+REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
+REDIS_DB = int(os.getenv("REDIS_DB", 0))
+REDIS_DECODE_RESPONSES = True
+
+MESSAGE_DEDUP_TTL_SECONDS = 300 # Tiempo en segundos para considerar un mensaje como duplicado (5 minutos)
  
 # Validaciones al iniciar
 _required = {

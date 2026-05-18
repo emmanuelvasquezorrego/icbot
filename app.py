@@ -13,18 +13,21 @@ import config
 
 from flask import Flask, request, jsonify, abort
 
-from whatsapp_client import WhatsAppClient
-from conversation_manager import ConversationManager
-from rate_limiter import RateLimiter
-from conv_logger import ConversationLogger
-from response_formatter import (
+from services.clients.whatsapp_client import WhatsAppClient
+from core.conversation_manager import ConversationManager
+from services.middleware.rate_limiter import RateLimiter
+from services.logs.conv_logger import ConversationLogger
+from utils.response_formatter import (
     format_response,
     format_rate_limit_response,
     format_error_response,
     format_welcome_message,
     format_history_cleared_response,
+    format_pqr_info,
+    format_pqr_redirect
 )
-from rag_agent import RAGAgent
+from core.rag_agent import RAGAgent
+from services.middleware.message_deduplicator import MessageDeduplicator
 
 # Logging
 logging.basicConfig(
@@ -45,6 +48,7 @@ whatsapp   = WhatsAppClient()
 conv_mgr   = ConversationManager()
 rate_lim   = RateLimiter()
 conv_log   = ConversationLogger()
+deduplicator = MessageDeduplicator()
 
 logger.info("Cargando agente RAG (puede tardar unos segundos)...")
 rag_agent  = RAGAgent(conversation_manager=conv_mgr)
@@ -87,6 +91,19 @@ SPECIAL_COMMANDS = {
 }
 CLEAR_COMMANDS = {"limpiar", "clear", "borrar", "/limpiar", "/clear", "/borrar"}
 
+PQR_COMMANDS = {"pqr", "pqrs", "/pqr", "/pqrs"}
+
+PQR_KEYWORDS = {
+    "queja", "reclamo", "petición", "peticion",
+    "denuncia", "inconformidad", "problema", "reporte",
+    "reportar", "reclamación", "reclamacion"
+}
+
+# Función para detectar si un mensaje tiene intención de PQR basado en keywords
+def _is_pqr(text: str) -> bool:
+    pattern = r'\b(' + '|'.join(re.escape(w) for w in PQR_KEYWORDS) + r')\b'
+    return bool(re.search(pattern, text, re.IGNORECASE))
+
 
 def process_message(phone: str, message_id: str, text: str):
 
@@ -111,6 +128,15 @@ def process_message(phone: str, message_id: str, text: str):
         whatsapp.send_message(phone, format_history_cleared_response())
         return
     
+    if text_lower in PQR_COMMANDS:
+        whatsapp.send_message(phone, format_pqr_info())
+        return
+
+    # ── Detección PQR por keywords ─────────────────────────
+    if _is_pqr(text_lower):
+        whatsapp.send_message(phone, format_pqr_redirect())
+        return
+        
     # ── Consulta RAG ───────────────────────────────────────
     try:
         # Detectar si es el primer mensaje del usuario
@@ -210,6 +236,16 @@ def webhook_receive():
             conv_log.log_rate_limit_event(phone, "rate_limit_silent")
 
         return jsonify({"status": "rate_limited"}), 200
+
+    # ── Deduplicación ─────────────────────────────
+
+    if deduplicator.is_duplicate(
+        message_id=message_id,
+        phone=phone,
+        text=text
+    ):
+
+        return jsonify({"status": "duplicate"}), 200
 
     # Validar longitud del mensaje
     if len(text) > config.MAX_MESSAGE_LENGTH:
