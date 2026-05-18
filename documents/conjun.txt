@@ -8,6 +8,13 @@ Bienvenidos a Villa Verde, un conjunto residencial cerrado ubicado en las afuera
 * Seguridad: Vigilancia 24/7 con cámaras y personal de seguridad.
 * Acceso: Solo para residentes y visitantes autorizados mediante tarjetas de acceso.
 
+## Contacto y Administración:
+
+* Administrador: Sr. Juan Pérez.
+* Teléfono: +57 300 123 4567.
+* Correo: [admin@villaverde.com](mailto:admin@villaverde.com).
+* Horarios de oficina: Lunes a viernes, 8:00 AM a 5:00 PM.
+
 ## Reglas de Convivencia:
 
 * Horarios de silencio: De 10:00 PM a 6:00 AM, para respetar la tranquilidad de todos.
@@ -63,12 +70,3 @@ Bienvenidos a Villa Verde, un conjunto residencial cerrado ubicado en las afuera
 * Limpieza: Áreas comunes limpiadas diariamente.
 * Transporte: Servicio de shuttle a centros comerciales cercanos los fines de semana.
 * Internet: Proveedor incluido en la cuota mensual.
-
-## Contacto y Administración:
-
-* Administrador: Sr. Juan Pérez.
-* Teléfono: +57 300 123 4567.
-* Correo: [admin@villaverde.com](mailto:admin@villaverde.com).
-* Horarios de oficina: Lunes a viernes, 8:00 AM a 5:00 PM.
-
-Si tienes preguntas adicionales, contacta a la administración. ¡Disfruta de tu hogar en Villa Verde!

@@ -5,8 +5,8 @@ Script para indexar documentos en Qdrant
 
 import os
 import sys
-from document_loader import DocumentLoader
-from vector_store import VectorStore
+from core.document_loader import DocumentLoader
+from core.vector_store import VectorStore
 import config
 
 

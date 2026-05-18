@@ -1,6 +1,19 @@
 version: "3.9"
 
 services:
+
+  redis:
+    image: redis:7-alpine
+    container_name: villaverde_redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      
   # Base de datos
   qdrant:
     build:
@@ -32,6 +45,9 @@ services:
       - QDRANT_HOST=qdrant
       - QDRANT_PORT=6333
       - QDRANT_PATH=   # vacío para forzar modo cliente-servidor
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
     volumes:
       # Persistencia de conversaciones y logs
       - ./data:/app/data
@@ -39,6 +55,8 @@ services:
       - ./documents:/app/documents:ro
     depends_on:
       qdrant:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
@@ -49,3 +67,4 @@ services:
 
 volumes:
   qdrant_data:
+  redis_data:

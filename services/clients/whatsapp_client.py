@@ -6,6 +6,7 @@ Maneja el envío de mensajes y verificación de webhook
 import requests
 import logging
 import config
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -19,8 +20,10 @@ class WhatsAppClient:
             f"https://graph.facebook.com/v19.0/"
             f"{config.WHATSAPP_PHONE_NUMBER_ID}/messages"
         )
-        self.headers = {
-            "Authorization": f"Bearer {config.WHATSAPP_ACCESS_TOKEN}",
+    @property
+    def headers(self):
+        return {
+            "Authorization": f"Bearer {os.getenv('WHATSAPP_ACCESS_TOKEN')}",
             "Content-Type": "application/json"
         }
 
@@ -59,17 +62,6 @@ class WhatsAppClient:
         except requests.exceptions.RequestException as e:
             logger.error(f"Error de red enviando mensaje a {to}: {e}")
             return False
-
-    def send_typing_indicator(self, to: str):
-        
-        """
-        Marcar mensaje como 'visto' para dar feedback visual al usuario
-        mientras el bot procesa la respuesta.
-        """
-
-        # Meta no tiene typing indicator directo, pero podemos marcar como leído
-        # Esto se hace con el message_id, se implementa en app.py al recibir el webhook
-        pass
 
     @staticmethod
     def parse_webhook_message(data: dict) -> dict | None:
@@ -117,7 +109,7 @@ class WhatsAppClient:
         }
         try:
             requests.post(
-                self.api_url.replace("/messages", "/messages"),
+                self.api_url,
                 headers=self.headers,
                 json=payload,
                 timeout=5
